@@ -14,6 +14,7 @@ ENV ERLANG_VERSION=27.1.2
 ENV REBAR_VERSION=3.24.0
 RUN echo "gleam ${GLEAM_VERSION}\nerlang ${ERLANG_VERSION}\nrebar ${REBAR_VERSION}" | tee -a .tool-versions
 RUN asdf install 
+RUN echo 'export PATH=$PATH:/$HOME/.asdf/shims' >> .bashrc
 
 # fly
 RUN curl -L https://fly.io/install.sh | sh
