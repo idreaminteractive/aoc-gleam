@@ -1,31 +1,17 @@
 FROM gitpod/workspace-full:2024-12-04-13-05-19
 RUN sudo apt-get update && sudo apt-get install -y docker-buildx-plugin sqlite wget 
 
-
-# RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.1
-
-# RUN /bin/bash -c 'echo -e "\n\n## Configure ASDF \n. $HOME/.asdf/asdf.sh" >> ~/.bashrc'; \
-#     /bin/bash -c 'echo -e "\n\n## ASDF Bash Completion: \n. $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc'; \
-#     exec bash; 
 RUN brew install asdf
-# RUN export ASDF_HOME=$HOME/.asdf
-# RUN /bin/bash -c . "$HOME/.asdf/asdf.sh"
-# RUN . "$HOME/.asdf/completions/asdf.bash"
 
 RUN export KERL_CONFIGURE_OPTIONS="--disable-debug --without-javac"
-# RUN asdf plugin add erlang && \
-#     asdf plugin add elixir && \
-#     asdf plugin add postgres
-  
 RUN asdf plugin add erlang https://github.com/asdf-vm/asdf-erlang.git
 RUN asdf plugin-add rebar https://github.com/Stratus3D/asdf-rebar.git
 RUN asdf plugin-add gleam
 
 # install our versions
-
-ENV GLEAM_VERSION=20.17.0
-ENV ERLANG_VERSION=20.17.0
-ENV REBAR_VERSION=20.17.0
+ENV GLEAM_VERSION=1.6.3
+ENV ERLANG_VERSION=27.1.2
+ENV REBAR_VERSION=3.24.0
 RUN echo "gleam ${GLEAM_VERSION}\nerlang ${ERLANG_VERSION}\nrebar ${REBAR_VERSION}" | tee -a .tool-versions
 RUN asdf install 
 
