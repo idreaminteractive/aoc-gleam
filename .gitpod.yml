@@ -29,3 +29,4 @@ vscode:
     - eamodio.gitlens
     - adpyke.vscode-sql-formatter
     - yy0931.vscode-sqlite3-editor
+    - gleam.gleam
