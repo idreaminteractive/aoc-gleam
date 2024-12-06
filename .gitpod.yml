@@ -3,7 +3,7 @@ image:
 
 tasks:
   - init: |
-      asdf local erlang 27.1.2
+      asdf install
       mkdir data
   # - command: |
   #     mkdir data
