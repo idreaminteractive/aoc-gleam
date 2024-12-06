@@ -1,10 +1,9 @@
 image:
   file: .gitpod.Dockerfile
 
-tasks:
-  - init: |
-      asdf install
-      mkdir data
+# tasks:
+  # - init: |
+      
   # - command: |
   #     mkdir data
 
