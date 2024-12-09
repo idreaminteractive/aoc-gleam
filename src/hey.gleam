@@ -12,12 +12,14 @@ pub type Direction {
   West
 }
 
+fn advance()
+
 pub type Position {
   Position(x: Int, y: Int)
 }
 
 pub fn create(direction: Direction, position: Position) -> Robot {
-  todo
+  Robot(direction, position)
 }
 
 pub fn move(
@@ -33,9 +35,30 @@ fn move_cmd(instructions: List(String), robot: Robot) -> Robot {
   case instructions {
     [cmd, ..rest] ->
       case cmd {
-        "R" -> move_cmd(rest, robot)
-        "L" -> move_cmd(rest, robot)
-        "A" -> move_cmd(rest, robot)
+        "R" -> {
+          case robot.direction {
+            East -> move_cmd(rest, Robot(..robot, direction: South))
+            West -> move_cmd(rest, Robot(..robot, direction: North))
+            North -> move_cmd(rest, Robot(..robot, direction: East))
+            South -> move_cmd(rest, Robot(..robot, direction: West))
+          }
+        }
+        "L" -> {
+          case robot.direction {
+            East -> move_cmd(rest, Robot(..robot, direction: North))
+            West -> move_cmd(rest, Robot(..robot, direction: South))
+            North -> move_cmd(rest, Robot(..robot, direction: West))
+            South -> move_cmd(rest, Robot(..robot, direction: East))
+          }
+        }
+        "A" -> {
+          case robot.direction {
+            East -> move_cmd(rest, Robot(..robot, position:))
+            West -> move_cmd(rest, Robot(..robot, direction: South))
+            North -> move_cmd(rest, Robot(..robot, direction: West))
+            South -> move_cmd(rest, Robot(..robot, direction: East))
+          }
+        }
         _ -> move_cmd(rest, robot)
       }
     [] -> robot
