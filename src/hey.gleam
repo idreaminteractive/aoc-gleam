@@ -1,66 +1,29 @@
 import gleam/list
-import gleam/string
 
-pub type Robot {
-  Robot(direction: Direction, position: Position)
+pub fn equilateral(a: Float, b: Float, c: Float) -> Bool {
+  is_triangle(a, b, c) && num_sides_equal(a, b, c) == 3
 }
 
-pub type Direction {
-  North
-  East
-  South
-  West
+pub fn isosceles(a: Float, b: Float, c: Float) -> Bool {
+  is_triangle(a, b, c) && num_sides_equal(a, b, c) >= 2
 }
 
-fn advance()
-
-pub type Position {
-  Position(x: Int, y: Int)
+pub fn scalene(a: Float, b: Float, c: Float) -> Bool {
+  is_triangle(a, b, c) && num_sides_equal(a, b, c) == 0
 }
 
-pub fn create(direction: Direction, position: Position) -> Robot {
-  Robot(direction, position)
-}
-
-pub fn move(
-  direction: Direction,
-  position: Position,
-  instructions: String,
-) -> Robot {
-  let ins = string.to_graphemes(instructions)
-  move_cmd(ins, Robot(direction, position))
-}
-
-fn move_cmd(instructions: List(String), robot: Robot) -> Robot {
-  case instructions {
-    [cmd, ..rest] ->
-      case cmd {
-        "R" -> {
-          case robot.direction {
-            East -> move_cmd(rest, Robot(..robot, direction: South))
-            West -> move_cmd(rest, Robot(..robot, direction: North))
-            North -> move_cmd(rest, Robot(..robot, direction: East))
-            South -> move_cmd(rest, Robot(..robot, direction: West))
-          }
-        }
-        "L" -> {
-          case robot.direction {
-            East -> move_cmd(rest, Robot(..robot, direction: North))
-            West -> move_cmd(rest, Robot(..robot, direction: South))
-            North -> move_cmd(rest, Robot(..robot, direction: West))
-            South -> move_cmd(rest, Robot(..robot, direction: East))
-          }
-        }
-        "A" -> {
-          case robot.direction {
-            East -> move_cmd(rest, Robot(..robot, position:))
-            West -> move_cmd(rest, Robot(..robot, direction: South))
-            North -> move_cmd(rest, Robot(..robot, direction: West))
-            South -> move_cmd(rest, Robot(..robot, direction: East))
-          }
-        }
-        _ -> move_cmd(rest, robot)
-      }
-    [] -> robot
+fn num_sides_equal(a: Float, b: Float, c: Float) -> Int {
+  let num =
+    [a == b, b == c, c == a]
+    |> list.count(fn(x) { x })
+  case num {
+    1 -> 2
+    2 | 3 -> 3
+    _ -> 0
   }
+}
+
+fn is_triangle(a: Float, b: Float, c: Float) -> Bool {
+  let all_zeros = a == 0.0 && b == 0.0 && c == 0.0
+  a +. b >=. c && b +. c >=. a && a +. c >=. b && !all_zeros
 }
