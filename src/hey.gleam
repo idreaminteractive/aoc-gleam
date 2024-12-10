@@ -1,29 +1,29 @@
 import gleam/list
+import gleam/option
 
-pub fn equilateral(a: Float, b: Float, c: Float) -> Bool {
-  is_triangle(a, b, c) && num_sides_equal(a, b, c) == 3
+import gleam/regex
+
+pub fn is_valid_line(line: String) -> Bool {
+  let assert Ok(re) = regex.from_string("[(INFO|DEBUG|ERROR|WARNING)] .*")
+  regex.check(re, line)
 }
 
-pub fn isosceles(a: Float, b: Float, c: Float) -> Bool {
-  is_triangle(a, b, c) && num_sides_equal(a, b, c) >= 2
+// log_parser.split_line("[INFO] Start.<*>[INFO] Processing...<~~~>[INFO] Success.")
+// -> ["[INFO] Start.", "[INFO] Processing...", "[INFO] Success."]
+pub fn split_line(line: String) -> List(String) {
+  let assert Ok(re) = regex.from_string("<[~*=-]*>")
+  regex.split(re, line)
 }
 
-pub fn scalene(a: Float, b: Float, c: Float) -> Bool {
-  is_triangle(a, b, c) && num_sides_equal(a, b, c) == 0
-}
+// log_parser.tag_with_user_name("[INFO] User Alice created a new project")
+// -> "[USER] Alice [INFO] User Alice created a new project"
+pub fn tag_with_user_name(line: String) -> String {
+  let assert Ok(re) = regex.from_string("[\\S*].*? User (.*?)\\w*")
+  let assert Ok(m) = regex.scan(re, line) |> list.last
+  let assert Ok(option.Some(user)) = m.submatches |> list.last
 
-fn num_sides_equal(a: Float, b: Float, c: Float) -> Int {
-  let num =
-    [a == b, b == c, c == a]
-    |> list.count(fn(x) { x })
-  case num {
-    1 -> 2
-    2 | 3 -> 3
-    _ -> 0
-  }
+  "[USER] " <> user <> " " <> line
 }
-
-fn is_triangle(a: Float, b: Float, c: Float) -> Bool {
-  let all_zeros = a == 0.0 && b == 0.0 && c == 0.0
-  a +. b >=. c && b +. c >=. a && a +. c >=. b && !all_zeros
-}
+// pub fn main() {
+//   tag_with_user_name("[INFO] User Alice created a new project")
+// }
