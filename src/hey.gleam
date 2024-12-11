@@ -1,29 +1,29 @@
+import gleam/int
 import gleam/list
-import gleam/option
 
-import gleam/regex
-
-pub fn is_valid_line(line: String) -> Bool {
-  let assert Ok(re) = regex.from_string("[(INFO|DEBUG|ERROR|WARNING)] .*")
-  regex.check(re, line)
+pub fn today(days: List(Int)) -> Int {
+  case days {
+    [] -> 0
+    [x, ..] -> x
+  }
 }
 
-// log_parser.split_line("[INFO] Start.<*>[INFO] Processing...<~~~>[INFO] Success.")
-// -> ["[INFO] Start.", "[INFO] Processing...", "[INFO] Success."]
-pub fn split_line(line: String) -> List(String) {
-  let assert Ok(re) = regex.from_string("<[~*=-]*>")
-  regex.split(re, line)
+pub fn increment_day_count(days: List(Int)) -> List(Int) {
+  case days {
+    [] -> [1]
+    [today, ..rest] -> [today + 1, ..rest]
+  }
 }
 
-// log_parser.tag_with_user_name("[INFO] User Alice created a new project")
-// -> "[USER] Alice [INFO] User Alice created a new project"
-pub fn tag_with_user_name(line: String) -> String {
-  let assert Ok(re) = regex.from_string("[\\S*].*? User (.*?)\\w*")
-  let assert Ok(m) = regex.scan(re, line) |> list.last
-  let assert Ok(option.Some(user)) = m.submatches |> list.last
-
-  "[USER] " <> user <> " " <> line
+pub fn has_day_without_birds(days: List(Int)) -> Bool {
+  list.any(days, fn(day) { day == 0 })
 }
-// pub fn main() {
-//   tag_with_user_name("[INFO] User Alice created a new project")
-// }
+
+pub fn total(days: List(Int)) -> Int {
+  list.fold(days, 0, int.add)
+}
+
+pub fn busy_days(days: List(Int)) -> Int {
+  list.filter(days, fn(day) { day >= 5 })
+  |> list.length
+}
