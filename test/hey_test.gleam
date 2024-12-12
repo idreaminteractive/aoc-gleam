@@ -6,10 +6,10 @@ pub fn main() {
   gleeunit.main()
 }
 
-// pub fn data_is_retained_test() {
-//   data.to_tree([4])
-//   |> should.equal(Node(data: 4, left: Nil, right: Nil))
-// }
+pub fn data_is_retained_test() {
+  data.to_tree([4])
+  |> should.equal(Node(data: 4, left: Nil, right: Nil))
+}
 
 // pub fn insert_data_at_proper_node_smaller_number_at_left_node_test() {
 //   data.to_tree([4, 2])
@@ -64,17 +64,18 @@ pub fn can_sort_data_can_sort_if_second_number_is_smaller_than_first_test() {
   data.sorted_data([2, 1])
   |> should.equal([1, 2])
 }
-// pub fn can_sort_data_can_sort_if_second_number_is_same_as_first_test() {
-//   data.sorted_data([2, 2])
-//   |> should.equal([2, 2])
-// }
 
-// pub fn can_sort_data_can_sort_if_second_number_is_greater_than_first_test() {
-//   data.sorted_data([2, 3])
-//   |> should.equal([2, 3])
-// }
+pub fn can_sort_data_can_sort_if_second_number_is_same_as_first_test() {
+  data.sorted_data([2, 2])
+  |> should.equal([2, 2])
+}
 
-// pub fn can_sort_data_can_sort_complex_tree_test() {
-//   data.sorted_data([2, 1, 3, 6, 7, 5])
-//   |> should.equal([1, 2, 3, 5, 6, 7])
-// }
+pub fn can_sort_data_can_sort_if_second_number_is_greater_than_first_test() {
+  data.sorted_data([2, 3])
+  |> should.equal([2, 3])
+}
+
+pub fn can_sort_data_can_sort_complex_tree_test() {
+  data.sorted_data([2, 1, 3, 6, 7, 5])
+  |> should.equal([1, 2, 3, 5, 6, 7])
+}
