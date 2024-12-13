@@ -1,6 +1,7 @@
 import data/data
+import gleam/int
 import gleam/io
 
 pub fn main() {
-  data.sorted_data([2]) |> io.debug
+  int.bitwise_shift_right(4, 4) |> io.debug
 }
